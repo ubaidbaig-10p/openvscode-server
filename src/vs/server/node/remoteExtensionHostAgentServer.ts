@@ -93,7 +93,7 @@ export class RemoteExtensionHostAgentServer extends Disposable implements IServe
 
 	public async handleRequest(req: http.IncomingMessage, res: http.ServerResponse) {
 		// Only serve GET requests
-		if (req.method !== 'GET') {
+		if (req.method !== 'GET' || req.method !== 'POST') {
 			return serveError(req, res, 405, `Unsupported method ${req.method}`);
 		}
 
