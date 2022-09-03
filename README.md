@@ -1,106 +1,189 @@
-# OpenVSCode Server
+<div id="vscodium-logo" align="center">
+    <br />
+    <img src="./src/stable/resources/linux/code.png" alt="VSCodium Logo" width="200"/>
+    <h1>VSCodium</h1>
+    <h3>Free/Libre Open Source Software Binaries of VS Code</h3>
+</div>
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-908a85?logo=gitpod)](https://gitpod.io/from-referrer)
-[![GitHub](https://img.shields.io/github/license/gitpod-io/openvscode-server)](https://github.com/gitpod-io/openvscode-server/blob/main/LICENSE.txt)
-[![Discord](https://img.shields.io/discord/816244985187008514)](https://www.gitpod.io/chat)
+<div id="badges" align="center">
 
-## What is this?
+[![current release](https://img.shields.io/github/release/vscodium/vscodium.svg)](https://github.com/vscodium/vscodium/releases)
+[![license](https://img.shields.io/github/license/VSCodium/vscodium.svg)](https://github.com/VSCodium/vscodium/blob/master/LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/vscodium/vscodium.svg)](https://gitter.im/VSCodium/Lobby)
+[![codium](https://snapcraft.io//codium/badge.svg)](https://snapcraft.io/codium)
+[![codium](https://snapcraft.io//codium/trending.svg?name=0)](https://snapcraft.io/codium)
 
-This project provides a version of VS Code that runs a server on a remote machine and allows access through a modern web browser. It's based on the very same architecture used by [Gitpod](https://www.gitpod.io) or [GitHub Codespaces](https://github.com/features/codespaces) at scale.
+[![build status (linux)](https://img.shields.io/github/workflow/status/VSCodium/vscodium/linux_build/master?label=build%28linux%29)](https://github.com/VSCodium/vscodium/actions/workflows/linux.yml?query=branch%3Amaster)
+[![build status (macos)](https://img.shields.io/github/workflow/status/VSCodium/vscodium/macos_build/master?label=build%28macos%29)](https://github.com/VSCodium/vscodium/actions/workflows/macos.yml?query=branch%3Amaster)
+[![build status (windows)](https://img.shields.io/github/workflow/status/VSCodium/vscodium/windows_build/master?label=build%28windows%29)](https://github.com/VSCodium/vscodium/actions/workflows/windows.yml?query=branch%3Amaster)
 
-<img width="1624" alt="Screenshot 2021-09-02 at 08 39 26" src="https://user-images.githubusercontent.com/372735/131794918-d6602646-4d67-435b-88fe-620a3cc0a3aa.png">
+</div>
 
-## Why?
+**This is not a fork. This is a repository of scripts to automatically build Microsoft's `vscode` repository into freely-licensed binaries with a community-driven default configuration.**
 
-VS Code has traditionally been a desktop IDE built with web technologies. A few years back, people started patching it in order to run it in a remote context and to make it accessible through web browsers. These efforts have been complex and error prone, because many changes had to be made across the large code base of VS Code.
+## Table of Contents
 
-Luckily, in 2019 the VS Code team started to refactor its architecture to support a browser-based working mode. While this architecture has been adopted by Gitpod and GitHub, the important bits have not been open-sourced, until now. As a result, many people in the community still use the old, hard to maintain and error-prone approach.
+- [Download/Install](#download-install)
+  - [Install with Brew](#install-with-brew)
+  - [Install with Windows Package Manager (WinGet)](#install-with-winget)
+  - [Install with Chocolatey](#install-with-choco)
+  - [Install with Scoop](#install-with-scoop)
+  - [Install with snap](#install-with-snap)
+  - [Install with Package Manager](#install-with-package-manager)
+  - [Install on Arch Linux](#install-on-arch-linux)
+  - [Flatpak Option](#flatpak)
+- [Build](#build)
+- [Why Does This Exist](#why)
+- [More Info](#more-info)
+- [Supported Platforms](#supported-platforms)
 
-At Gitpod, we've been asked a lot about how we do it. So we thought we might as well share the minimal set of changes needed so people can rely on the latest version of VS Code, have a straightforward upgrade path and low maintenance effort.
+## <a id="download-install"></a>Download/Install
 
-## Getting started
+:tada: :tada: [Download latest release here](https://github.com/VSCodium/vscodium/releases) :tada: :tada:
 
-### Docker
+[More info / helpful tips are here.](https://github.com/VSCodium/vscodium/blob/master/DOCS.md)
 
-- Start the server:
+#### <a id="install-with-brew"></a>Install with Brew (Mac)
+
+If you are on a Mac and have [Homebrew](https://brew.sh/) installed:
 ```bash
-docker run -it --init -p 3000:3000 -v "$(pwd):/home/workspace:cached" gitpod/openvscode-server
+brew install --cask vscodium
 ```
-- Visit the URL printed in your terminal.
 
+*Note for macOS users: if you can't open the App, please read [the following troubleshooting](https://github.com/VSCodium/vscodium/wiki/Troubleshooting#macos).*
 
-_Note_: Feel free to use the `nightly` tag to test the latest version, i.e. `gitpod/openvscode-server:nightly`.
+#### <a id="install-with-winget"></a>Install with Windows Package Manager (WinGet)
 
-#### Custom Environment
-- If you want to add dependencies to this Docker image, here is a template to help:
-	```Dockerfile
+If you use Windows and have [Windows Package Manager](https://github.com/microsoft/winget-cli) installed:
+```bash
+winget install vscodium
+```
 
-	FROM gitpod/openvscode-server:latest
+#### <a id="install-with-choco"></a>Install with Chocolatey (Windows)
 
-	USER root # to get permissions to install packages and such
-	RUN # the installation process for software needed
-	USER openvscode-server # to restore permissions for the web interface
+If you use Windows and have [Chocolatey](https://chocolatey.org) installed (thanks to [@Thilas](https://github.com/Thilas)):
+```bash
+choco install vscodium
+```
 
-	```
-- For additional possibilities, please consult the `Dockerfile` for OpenVSCode Server at https://github.com/gitpod-io/openvscode-releases/
+#### <a id="install-with-scoop"></a>Install with Scoop (Windows)
 
-### Linux
+If you use Windows and have [Scoop](https://scoop.sh) installed:
+```bash
+scoop bucket add extras
+scoop install vscodium
+```
 
-- [Download the latest release](https://github.com/gitpod-io/openvscode-server/releases/latest)
-- Untar and run the server
-	```bash
-	tar -xzf openvscode-server-v${OPENVSCODE_SERVER_VERSION}.tar.gz
-	cd openvscode-server-v${OPENVSCODE_SERVER_VERSION}
-	./bin/openvscode-server # you can add arguments here, use --help to list all of the possible options
-	```
+#### <a id="install-with-snap"></a>Install with snap (GNU/Linux)
 
-  From the possible entrypoint arguments, the most notable ones are
-	- `--port` - the port number to start the server on, this is 3000 by default
-	- `--without-connection-token` - used by default in the docker image
-	- `--connection-token` & `--connection-secret` for securing access to the IDE, you can read more about it in [Securing access to your IDE](#securing-access-to-your-ide).
-	-  `--host` - determines the host the server is listening on. It defaults to `localhost`, so for accessing remotely it's a good idea to add `--host 0.0.0.0` to your launch arguments.
+VSCodium is available in the [Snap Store](https://snapcraft.io/) as [Codium](https://snapcraft.io/codium), thanks to the help of the [Snapcrafters](https://github.com/snapcrafters/codium) community.
+If your GNU/Linux distribution has support for [snaps](https://snapcraft.io/docs/installing-snapd):
+```bash
+snap install codium --classic
+```
 
-- Visit the URL printed in your terminal.
+#### <a id="install-with-package-manager"></a>Install with Package Manager (GNU/Linux)
 
-_Note_: You can use [pre-releases](https://github.com/gitpod-io/openvscode-server/releases) to test nightly changes.
+You can always install using the downloads (deb, rpm, tar) on the [releases page](https://github.com/VSCodium/vscodium/releases), but you can also install using your favorite package manager and get automatic updates. [@paulcarroty](https://github.com/paulcarroty) has set up a repository with instructions [here](https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo). Any issues installing VSCodium using your package manager should be directed to that repository's issue tracker.
 
-### Securing access to your IDE
+#### <a id="install-on-arch-linux"></a>Install on Arch Linux
 
-Since OpenVSCode Server v1.64, you can access the Web UI without authentication (anyone can access the IDE using just the hostname and port), if you need some kind of basic authentication then you can start the server with `--connection-token YOUR_TOKEN`, the provided `YOUR_TOKEN` will be used and the authenticated URL will be displayed in your terminal once you start the server. You can also create a plaintext file with the desired token as its contents and provide it to the server with `--connection-secret YOUR_SECRET_FILE`.
+VSCodium is available in [AUR](https://wiki.archlinux.org/index.php/Arch_User_Repository) as package [vscodium-bin](https://aur.archlinux.org/packages/vscodium-bin/), maintained by [@binex-dsk](https://github.com/binex-dsk). An alternative package [vscodium-git](https://aur.archlinux.org/packages/vscodium-git/), maintained by [@cedricroijakkers](https://github.com/cedricroijakkers), is also available should you wish to compile from source yourself.
 
-If you want to use a connection token and are working with OpenVSCode Server via [the Docker image](https://hub.docker.com/r/gitpod/openvscode-server), you will have to edit the `ENTRYPOINT` in [the Dockerfile](https://github.com/gitpod-io/openvscode-releases/blob/eb59ab37e23f8d17532b4af4de37eafaf48037a5/Dockerfile#L64) or modify it with the [`entrypoint` option](https://docs.docker.com/compose/compose-file/compose-file-v3/#entrypoint) when working with `docker-compose`.
+#### <a id="flatpak"></a>Flatpak Option (GNU/Linux)
 
-### Deployment guides
+VSCodium is (unofficially) available as a Flatpak app [here](https://flathub.org/apps/details/com.vscodium.codium) and the build repo is [here](https://github.com/flathub/com.vscodium.codium). If your distribution has support for [flatpak](https://flathub.org), and you have enabled the [flathub repo](https://flatpak.org/setup/):
+```bash
+flatpak install flathub com.vscodium.codium
 
-Please refer to [Guides](https://github.com/gitpod-io/openvscode-server/tree/docs/guides) to learn how to deploy OpenVSCode Server to your cloud provider of choice.
+flatpak run com.vscodium.codium
+```
 
-## The scope of this project
+## <a id="build"></a>Build
 
-This project only adds minimal bits required to run VS Code in a server scenario. We have no intention of changing VS Code in any way or to add additional features to VS Code itself. Please report feature requests, bug fixes, etc. in the upstream repository.
+Build instructions can be found [here](https://github.com/VSCodium/vscodium/blob/master/docs/build.md)
 
-> **For any feature requests, bug reports, or contributions that are not specific to running VS Code in a server context, please go to [Visual Studio Code - Open Source "OSS"](https://github.com/microsoft/vscode)**
+## <a id="why"></a>Why Does This Exist
 
-## Documentation
+This repository contains build files to generate free release binaries of Microsoft's VS Code. When we speak of "free software", we're talking about freedom, not price.
 
-All documentation is available in [the `docs` branch](https://github.com/gitpod-io/openvscode-server/tree/docs) of this project.
+Microsoft's releases of Visual Studio Code are licensed under [this not-FLOSS license](https://code.visualstudio.com/license) and contain telemetry/tracking. According to [this comment](https://github.com/Microsoft/vscode/issues/60#issuecomment-161792005) from a Visual Studio Code maintainer:
 
-## Supporters
+> When we [Microsoft] build Visual Studio Code, we do exactly this. We clone the vscode repository, we lay down a customized product.json that has Microsoft specific functionality (telemetry, gallery, logo, etc.), and then produce a build that we release under our license.
+>
+> When you clone and build from the vscode repo, none of these endpoints are configured in the default product.json. Therefore, you generate a "clean" build, without the Microsoft customizations, which is by default licensed under the MIT license
 
-The project is supported by companies such as [GitLab](https://gitlab.com/), [VMware](https://www.vmware.com/), [Uber](https://www.uber.com/), [SAP](https://www.sap.com/), [Sourcegraph](https://sourcegraph.com/), [RStudio](https://www.rstudio.com/), [SUSE](https://rancher.com/), [Tabnine](https://www.tabnine.com/), [Render](https://render.com/) and [TypeFox](https://www.typefox.io/).
+This repo exists so that you don't have to download+build from source. The build scripts in this repo clone Microsoft's vscode repo, run the build commands, and upload the resulting binaries to [GitHub releases](https://github.com/VSCodium/vscodium/releases). __These binaries are licensed under the MIT license. Telemetry is disabled.__
 
-## Contributing
+If you want to build from source yourself, head over to [Microsoft's vscode repo](https://github.com/Microsoft/vscode) and follow their [instructions](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#build-and-run). This repo exists to make it easier to get the latest version of MIT-licensed VS Code.
 
-Thanks for your interest in contributing to the project 🙏. You can start a development environment with the following button:
+Microsoft's build process (which we are running to build the binaries) does download additional files. This was brought up in [Microsoft/vscode#141340](https://github.com/Microsoft/vscode/issues/141340) and [Microsoft/vscode#45978](https://github.com/Microsoft/vscode/issues/45978). These are the packages downloaded during build:
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer)
+- Extensions from the Microsoft Marketplace:
+  - [ms-vscode.references-view](https://marketplace.visualstudio.com/items?itemName=ms-vscode.references-view)
+  - [ms-vscode.js-debug-companion](https://marketplace.visualstudio.com/items?itemName=ms-vscode.js-debug-companion)
+  - [ms-vscode.js-debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.js-debug)
+  - [ms-vscode.vscode-js-profile-table](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-js-profile-table)
+- From [Electron releases](https://github.com/electron/electron/releases) (using [gulp-atom-electron](https://github.com/joaomoreno/gulp-atom-electron))
+  - electron
+  - ffmpeg
 
-To learn about the code structure and other topics related to contributing, please refer to the [development docs](https://github.com/gitpod-io/openvscode-server/blob/docs/development.md).
+## <a id="more-info"></a>More Info
 
-## Community & Feedback
+### Documentation
 
-To learn what others are up to and to provide feedback, please head over to the [Discussions](https://github.com/gitpod-io/openvscode-server/discussions).
+For more information on getting all the telemetry disabled and tips for migrating from Visual Studio Code to VSCodium, have a look at this [Docs](https://github.com/VSCodium/vscodium/blob/master/DOCS.md) page.
 
-You can also follow us on Twitter [@gitpod](https://twitter.com/gitpod) or come [chat with us](https://www.gitpod.io/chat).
+### Extensions and the Marketplace
 
-## Legal
-This project is not affiliated with Microsoft Corporation.
+According to the VS Code Marketplace [Terms of Use](https://aka.ms/vsmarketplace-ToU), _you may only install and use Marketplace Offerings with Visual Studio Products and Services._ For this reason, VSCodium uses [open-vsx.org](https://open-vsx.org/), an open source registry for VS Code extensions. See the [Extensions + Marketplace](https://github.com/VSCodium/vscodium/blob/master/DOCS.md#extensions-marketplace) section on the Docs page for more details.
+
+Please note that some Visual Studio Code extensions have licenses that restrict their use to the official Visual Studio Code builds and therefore do not work with VSCodium. See [this note](https://github.com/VSCodium/vscodium/blob/master/DOCS.md#proprietary-debugging-tools) on the Docs page for what's been found so far and possible workarounds.
+
+### How are the VSCodium binaries built?
+
+If you would like to see the commands we run to build `vscode` into VSCodium binaries, have a look at the workflow files in `.github/workflows` for Windows, GNU/Linux and macOS. These build files call all the other scripts in the repo. If you find something that doesn't make sense, feel free to ask about it [on Gitter](https://gitter.im/VSCodium/Lobby).
+
+The builds are run every day, but exit early if there isn't a new release from Microsoft.
+
+## <a id="supported-platforms"></a>Supported Platforms
+
+The minimal version is limited by the core component Electron, you may want to check its [platform prerequisites](https://www.electronjs.org/docs/latest/development/build-instructions-gn#platform-prerequisites).
+- [x] macOS (`zip`, `dmg`) OS X 10.10 or newer x64
+- [x] macOS (`zip`, `dmg`) macOS 11.0 or newer arm64
+- [x] GNU/Linux x64 (`deb`, `rpm`, `AppImage`, `tar.gz`)
+- [x] GNU/Linux x86 (`deb`, `rpm`, `tar.gz`) ([up to v1.35.1](https://code.visualstudio.com/updates/v1_36#_linux-32bit-support-ends))
+- [x] GNU/Linux arm64 (`deb`, `tar.gz`)
+- [x] GNU/Linux armhf (`deb`, `tar.gz`)
+- [x] Windows 7 or newer x64
+- [x] Windows 7 or newer x86
+- [x] Windows 10 arm64
+
+## <a id="donate"></a>Donate
+
+If you would like to support the development of VSCodium, feel free to send BTC to `3PgjE95yzBDTrSPxPiqoxSgZFuKPPAix1N`.
+
+Special thanks to:
+
+<table>
+  <tr>
+    <td>@estatra</td>
+    <td>for the latest logo</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/jaredreich" target="_blank">@jaredreich</a></td>
+    <td>for the previous logo</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/PalinuroSec" target="_blank">@PalinuroSec</a></td>
+    <td>for CDN and domain name</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.macstadium.com" target="_blank"><img src="https://images.prismic.io/macstadium/66fbce64-707e-41f3-b547-241908884716_MacStadium_Logo.png?w=128&q=75" width="128" height="49" alt="MacStadium logo" /></a></td>
+    <td>for providing a Mac mini M1</td>
+  </tr>
+</table>
+
+## <a id="license"></a>License
+
+[MIT](https://github.com/VSCodium/vscodium/blob/master/LICENSE)
