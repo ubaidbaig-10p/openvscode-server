@@ -6,14 +6,14 @@ set -e
 . ./utils.sh
 
 if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-  cp -rp src/insider/* vscode/
+  cp -rp src/insider/* openvscode-server/
 else
-  cp -rp src/stable/* vscode/
+  cp -rp src/stable/* openvscode-server/
 fi
 
-cp -f LICENSE vscode/LICENSE.txt
+cp -f LICENSE openvscode-server/LICENSE.txt
 
-cd vscode || { echo "'vscode' dir not found"; exit 1; }
+cd openvscode-server || { echo "'vscode' dir not found"; exit 1; }
 
 ../update_settings.sh
 
